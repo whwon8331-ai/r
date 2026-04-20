@@ -80,7 +80,7 @@
 
   <div class="max-w-md mx-auto px-5 py-8 flex flex-col gap-10">
     
-    <!-- 헤더 & 메인 프로필 -->
+    <!-- 1. 헤더 & 메인 프로필 -->
     <header class="reveal-section flex flex-col items-center text-center relative mt-4">
       <div class="absolute right-0 -top-4 w-12 h-12 border-[2px] border-[var(--color-point)] text-[var(--color-point)] flex items-center justify-center font-serif font-bold text-sm bg-[var(--color-paper)] rotate-[10deg] shadow-sm z-20">鳳伊</div>
       <h1 class="text-5xl font-serif font-black tracking-tighter mb-2">김선달</h1>
@@ -90,7 +90,7 @@
          <img src="https://i.postimg.cc/3RyzBxZd/1776278334627-01.jpg" alt="김선달" class="w-full h-full object-cover" />
       </div>
 
-      <!-- 신체 정보 (요청사항 반영) -->
+      <!-- 신체 정보 (거시기 특징 포함) -->
       <div class="grid grid-cols-2 gap-2 w-full mb-6">
         <div class="bg-white/50 p-2 border-t border-[var(--color-ink)]">
             <p class="text-[10px] text-[var(--color-point)] font-bold">신장</p>
@@ -108,25 +108,44 @@
       </div>
     </header>
 
-    <!-- 요약 -->
+    <!-- 2. 개요 -->
     <section class="reveal-section flex flex-col gap-4">
       <h3 class="text-sm uppercase text-[var(--color-jade)] font-bold border-b border-[var(--color-ink)]/20 pb-2">개요 (Summary)</h3>
       <div class="bg-white/40 border border-black/5 p-4 text-[14px] leading-relaxed shadow-sm">
-        "이건 사기가 아니라 설득이라네." 대동강 물을 팔아먹은 전설의 사기꾼. 양반의 위선을 혐오하며 전국을 유랑하는 천생 언변가.
+        대동강 물을 판 전설의 사기꾼. 양반의 위선을 혐오하며 전국을 유랑하는 천생 언변가.
       </div>
     </section>
 
-    <!-- 특징 -->
+    <!-- 3. 사기 철칙 (추가된 사항) -->
+    <section class="reveal-section flex flex-col gap-4">
+      <h3 class="text-sm uppercase text-[var(--color-point)] font-bold border-b border-[var(--color-point)]/20 pb-2">사기 철칙</h3>
+      <div class="bg-[var(--color-point)]/5 border-l-4 border-[var(--color-point)] p-5 space-y-4">
+        <div>
+          <p class="text-[11px] font-bold text-[var(--color-point)] uppercase">Rule 01</p>
+          <p class="text-[15px] font-bold">가난한 자에게는 손대지 않는다.</p>
+        </div>
+        <div>
+          <p class="text-[11px] font-bold text-[var(--color-point)] uppercase">Rule 02</p>
+          <p class="text-[15px] font-bold">여자와 아이는 울리지 않는다.</p>
+        </div>
+        <div>
+          <p class="text-[11px] font-bold text-[var(--color-point)] uppercase">Rule 03</p>
+          <p class="text-[15px] font-bold">같은 수법을 두 번 쓰지 않는다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 특징 -->
     <section class="reveal-section flex flex-col gap-4">
       <h3 class="text-sm uppercase text-[var(--color-jade)] font-bold border-b border-[var(--color-ink)]/20 pb-2">특징 (Traits)</h3>
       <ul class="text-[13px] space-y-3 text-[#444]">
-        <li class="flex gap-2"><span class="text-[var(--color-point)]">●</span> <b>능글맞은 반말:</b> 고사성어를 제멋대로 비틀어 사용.</li>
-        <li class="flex gap-2"><span class="text-[var(--color-point)]">●</span> <b>의적 기질:</b> 가난한 자는 돕고, 탐관오리는 철저히 등침.</li>
-        <li class="flex gap-2"><span class="text-[var(--color-point)]">●</span> <b>반전 성격:</b> 정작 진심으로 당황하면 말문이 막히고 귀가 빨개짐.</li>
+        <li class="flex gap-2"><span class="text-[var(--color-jade)]">●</span> <b>능글맞은 반말:</b> 고사성어를 제멋대로 비틀어 사용.</li>
+        <li class="flex gap-2"><span class="text-[var(--color-jade)]">●</span> <b>의적 기질:</b> 가난한 자는 돕고, 탐관오리는 철저히 등침.</li>
+        <li class="flex gap-2"><span class="text-[var(--color-jade)]">●</span> <b>반전 성격:</b> 정작 진심으로 당황하면 말문이 막히고 귀가 빨개짐.</li>
       </ul>
     </section>
 
-    <!-- 주요 거점 (5장 이미지 모두 포함) -->
+    <!-- 5. 유람 거점 (5장 이미지 슬라이드) -->
     <section class="reveal-section flex flex-col gap-4">
       <h3 class="text-sm uppercase text-[var(--color-jade)] font-bold border-b border-[var(--color-ink)]/20 pb-2">유람 거점 (Locations)</h3>
       <p class="text-[12px] text-[#666] mb-1">옆으로 넘겨서 확인하세요 →</p>
