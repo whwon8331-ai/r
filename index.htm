@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>조선팔도 유람기 - 김선달 DOSSIER</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>조선팔도 유람기 - 김선달 DOSSIER (Mobile)</title>
   
   <!-- 전통 한글 폰트 로드 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,15 +26,11 @@
   </script>
   
   <style>
-    /* 글로벌 테마 색상 및 CSS 변수 */
     :root {
       --color-paper: #f2ede4;
       --color-ink: #1a1a1a;
-      --color-ink-light: #333333;
-      --color-ink-faded: rgba(26, 26, 26, 0.4);
       --color-point: #a62121;
       --color-jade: #2a3b59;
-      --color-line: rgba(26, 26, 26, 0.2);
     }
 
     body {
@@ -42,6 +38,7 @@
       color: var(--color-ink);
       font-family: var(--font-sans);
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
     
     /* 한지 텍스처 배경 효과 */
@@ -50,37 +47,17 @@
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       background-image: radial-gradient(var(--color-ink) 0.5px, transparent 0.5px);
-      background-size: 40px 40px;
-      opacity: 0.04;
+      background-size: 20px 20px;
+      opacity: 0.05;
       pointer-events: none;
       z-index: -1;
-    }
-
-    /* 세로쓰기 커스텀 유틸리티 */
-    .text-vertical {
-      writing-mode: vertical-rl;
-    }
-
-    /* 웹킷 스크롤바 디자인 */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--color-paper);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--color-ink-light);
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--color-point);
     }
 
     /* 스크롤 시 등장 요소 */
     .reveal-section {
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     }
     .reveal-section.active {
       opacity: 1;
@@ -88,323 +65,140 @@
     }
   </style>
 </head>
-<body class="min-h-screen relative p-4 md:p-8 lg:py-12 lg:px-4 selection:bg-[var(--color-point)] selection:text-[var(--color-paper)]">
+<body class="relative selection:bg-[var(--color-point)] selection:text-[var(--color-paper)]">
     
   <!-- === [BGM 오디오 & 입장 오버레이] === -->
   <audio id="bgm" loop>
     <source src="https://whwon8331-ai.github.io/r/김선달.mp3" type="audio/mpeg">
   </audio>
 
-  <div id="enter-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[var(--color-paper)] text-[var(--color-ink)] transition-opacity duration-1000 cursor-pointer">
-    <div class="text-center flex flex-col items-center">
-      <!-- 김선달 도장 마크 -->
-      <div class="w-16 h-16 border-[3px] border-[var(--color-point)] text-[var(--color-point)] flex items-center justify-center font-serif font-bold text-xl mb-6 bg-[var(--color-paper)] rotate-3">
-         鳳伊<br/>金氏
-      </div>
-      <h1 class="text-3xl md:text-5xl font-serif font-black mb-4">김선달 DOSSIER</h1>
-      <p class="font-sans text-[var(--color-jade)] mb-12 tracking-widest text-sm font-bold">조선팔도 유람기</p>
-      
-      <!-- 깜빡이는 텍스트 효과 -->
-      <p class="font-sans text-sm md:text-base border border-[var(--color-ink)] px-8 py-3 hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)] transition-colors duration-300 animate-pulse">
-        화면을 클릭하여 입장
-      </p>
+  <div id="enter-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[var(--color-paper)] text-[var(--color-ink)] transition-opacity duration-700 cursor-pointer p-4 text-center">
+    <div class="w-14 h-14 border-[2px] border-[var(--color-point)] text-[var(--color-point)] flex items-center justify-center font-serif font-bold text-lg mb-6 bg-[var(--color-paper)] rotate-3">
+        鳳伊<br/>金氏
     </div>
+    <h1 class="text-3xl font-serif font-black mb-2">김선달</h1>
+    <p class="font-sans text-[var(--color-jade)] mb-10 tracking-widest text-xs font-bold">조선팔도 유람기</p>
+    <p class="font-sans text-sm border border-[var(--color-ink)] px-6 py-2 hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)] transition-colors animate-pulse">
+      화면을 터치하세요
+    </p>
   </div>
-  <!-- =============================================== -->
 
-  <!-- 배경 붓글씨 파편 장식 -->
-  <div class="fixed -bottom-10 -right-4 md:-right-10 text-[200px] md:text-[350px] font-serif font-bold z-[-1] opacity-[0.03] select-none pointer-events-none text-[var(--color-ink)] leading-none">
-     鳳
-  </div>
-
-  <div class="max-w-5xl mx-auto border-x-0 lg:border-x-[20px] lg:border-[var(--color-paper)] flex flex-col bg-transparent overflow-hidden lg:overflow-visible">
+  <!-- 모바일 뷰어 컨테이너 (최대 너비 고정) -->
+  <div class="max-w-md mx-auto bg-transparent overflow-hidden px-5 py-8 flex flex-col gap-10">
     
-    <!-- 1. 메인 헤더 & 히어로 섹션 -->
-    <header class="reveal-section pt-12 pb-8 flex flex-col md:flex-row items-center md:items-end justify-between border-b-2 border-[var(--color-ink)] relative mb-8 px-2 sm:px-4 lg:px-0 gap-8 md:gap-0">
-      <div class="title-group z-10 w-full md:w-auto flex flex-col space-y-2 pb-2 mt-8 md:mt-0 order-2 md:order-1 text-center md:text-left">
-        <h1 class="text-[54px] sm:text-[64px] md:text-[80px] font-serif font-black tracking-tighter leading-[0.9] text-[var(--color-ink)]">김선달</h1>
-        <h2 class="font-sans text-[14px] sm:text-[16px] font-semibold text-[var(--color-jade)] opacity-90 mt-2">천하제일 사기꾼 겸 떠돌이 장사치</h2>
-        <p class="text-[11px] sm:text-[12px] uppercase opacity-70 tracking-[4px] mt-1 text-[var(--color-ink)] font-bold">본명: 김봉이</p>
+    <!-- 1. 헤더 & 메인 프로필 -->
+    <header class="reveal-section flex flex-col items-center text-center relative mt-4">
+      <div class="absolute right-0 -top-6 w-12 h-12 border-[2px] border-[var(--color-point)] text-[var(--color-point)] flex items-center justify-center font-serif font-bold text-sm bg-[var(--color-paper)] rotate-[10deg] shadow-sm z-20">
+        鳳伊
+      </div>
+      <h1 class="text-5xl font-serif font-black tracking-tighter text-[var(--color-ink)] mb-2">김선달</h1>
+      <h2 class="text-sm font-semibold text-[var(--color-jade)] mb-6">천하제일 사기꾼 겸 떠돌이</h2>
+      
+      <div class="w-full aspect-[4/5] overflow-hidden border border-black/10 shadow-sm relative mb-6 bg-[rgba(255,255,255,0.4)] p-2">
+         <img src="https://i.postimg.cc/3RyzBxZd/1776278334627-01.jpg" alt="김선달 프로필" class="w-full h-full object-cover" />
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-2 mb-4">
+        <span class="bg-[var(--color-ink)] text-white text-[11px] px-3 py-1 rounded-full">28세 / 남</span>
+        <span class="bg-[var(--color-ink)] text-white text-[11px] px-3 py-1 rounded-full">193cm</span>
+        <span class="bg-[var(--color-jade)] text-white text-[11px] px-3 py-1 rounded-full">ENTP</span>
+        <span class="bg-[var(--color-point)] text-white text-[11px] px-3 py-1 rounded-full">7w8</span>
       </div>
       
-      <div class="z-0 w-full md:w-auto relative flex justify-center md:justify-end order-1 md:order-2">
-         <!-- 도장 낙관 -->
-         <div class="flex w-16 h-16 md:w-20 md:h-20 border-[3px] border-[var(--color-point)] text-[var(--color-point)] items-center justify-center font-serif font-bold text-xl md:text-2xl leading-none text-center p-2 absolute right-4 sm:right-10 md:-right-8 -top-6 md:-top-10 z-20 bg-[var(--color-paper)] rotate-3 shadow-sm">
-           鳳伊<br/>金氏
-         </div>
-         <div class="relative w-full max-w-[260px] h-[340px] md:max-w-none md:w-80 md:h-[28rem] overflow-hidden border border-black/10 shadow-sm bg-[rgba(255,255,255,0.4)]">
-            <img src="https://i.postimg.cc/3RyzBxZd/1776278334627-01.jpg" alt="김선달 프로필 1" class="w-full h-full object-cover filter brightness-[0.95]" crossorigin="anonymous" referrerpolicy="no-referrer" />
-         </div>
-         <div class="absolute -right-6 top-1/2 -translate-y-1/2 rotate-90 text-[10px] tracking-[3px] opacity-40 font-sans whitespace-nowrap hidden md:block">
-            JANG-SI TRAVELER NO. 001
-         </div>
-      </div>
+      <p class="font-serif text-[18px] italic leading-[1.4] text-center border-y border-[var(--color-ink)]/20 py-4 mt-2 px-2">
+        "이건 사기가 아니라,<br/>말재주로 하는 설득이라네."
+      </p>
     </header>
 
-    <!-- 2. 캐릭터 개요 요약 (프로필) -->
-    <section class="reveal-section grid grid-cols-1 md:grid-cols-3 gap-[30px] border-b border-transparent mb-12 px-2 sm:px-4 lg:px-0">
-      <div class="md:col-span-1 flex flex-col gap-6 font-sans order-2 md:order-1">
-        <div class="w-full h-56 md:h-48 overflow-hidden border border-black/10 shadow-sm relative">
-           <div class="absolute inset-0 bg-black/5 z-10 mix-blend-overlay"></div>
-           <img src="https://i.postimg.cc/x107ZRPs/1776279058951-01.jpg" alt="김선달 흑백 프로필" class="w-full h-full object-cover filter grayscale-[20%] object-top" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        </div>
-        
-        <div class="flex flex-col gap-2 w-full mt-2">
-          <div class="border-t border-[var(--color-ink)] pt-3 pb-2">
-            <div class="text-[11px] text-[var(--color-point)] font-bold uppercase tracking-wider mb-1">나이/성별:</div>
-            <div class="text-[16px] sm:text-[18px] text-[var(--color-ink)] font-bold">28세 / 남자</div>
-          </div>
-          <div class="border-t border-[var(--color-ink)] pt-3 pb-2">
-            <div class="text-[11px] text-[var(--color-point)] font-bold uppercase tracking-wider mb-1">신체:</div>
-            <div class="text-[16px] sm:text-[18px] text-[var(--color-ink)] font-bold">193cm (탄탄한 근육질) / 거시기가 큼</div>
-          </div>
-          <div class="border-t border-[var(--color-ink)] pt-3 pb-2">
-            <div class="text-[11px] text-[var(--color-point)] font-bold uppercase tracking-wider mb-1">직업:</div>
-            <div class="text-[16px] sm:text-[18px] text-[var(--color-ink)] font-bold">자칭 보부상, 실질은 천하제일 사기꾼 겸 떠돌이 장사치</div>
-          </div>
-        </div>
-
-        <div class="flex flex-wrap gap-2 mt-2">
-          <span class="bg-[var(--color-jade)] text-white text-[11px] px-3 py-1 rounded-[2px] uppercase">ENTP</span>
-          <span class="bg-[var(--color-point)] text-white text-[11px] px-3 py-1 rounded-[2px] uppercase">7w8</span>
-        </div>
+    <!-- 2. 요약 및 철칙 -->
+    <section class="reveal-section flex flex-col gap-4">
+      <h3 class="text-sm uppercase text-[var(--color-jade)] font-bold border-b border-[var(--color-ink)]/20 pb-2">개요 (Summary)</h3>
+      <div class="bg-[rgba(255,255,255,0.4)] border border-[rgba(0,0,0,0.1)] p-5 text-[14px] leading-relaxed text-[#333] shadow-sm">
+        대동강 물을 판 전설의 장본인. 관아의 수배망을 피해 신분을 바꿔가며 먹잇감을 찾고 있다. 능글맞은 언변으로 상황을 모면하며, 얽매이는 것을 극도로 혐오하는 유랑객.
       </div>
+
+      <div class="bg-[rgba(255,255,255,0.4)] border border-[var(--color-point)]/20 p-5 mt-2">
+        <h4 class="text-[12px] font-bold text-[var(--color-point)] mb-3">3대 철칙</h4>
+        <ul class="text-[13px] space-y-2 text-[#444]">
+          <li class="flex gap-2"><span>1.</span> 가난한 자의 돈은 건드리지 않는다.</li>
+          <li class="flex gap-2"><span>2.</span> 양반과 권력자는 철저히 등친다.</li>
+          <li class="flex gap-2"><span>3.</span> 진심으로 정이 들면 말없이 떠난다.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 3. 특징 (기호/말투) -->
+    <section class="reveal-section flex flex-col gap-6">
+      <h3 class="text-sm uppercase text-[var(--color-jade)] font-bold border-b border-[var(--color-ink)]/20 pb-2">특징 (Traits)</h3>
       
-      <div class="md:col-span-2 p-6 sm:p-8 bg-[rgba(255,255,255,0.4)] border border-[rgba(0,0,0,0.1)] flex flex-col justify-center relative order-1 md:order-2">
-        <h3 class="text-[12px] uppercase text-[var(--color-jade)] font-bold mb-6 flex items-center gap-2 border-b border-[rgba(0,0,0,0.1)] pb-2 inline-flex w-max">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-jade)]"><path d="m20.24 12.24-11 11a2 2 0 1 1-2.83-2.83l11-11a2 2 0 1 1 2.83 2.83Z"></path><path d="m16 8 4-4"></path><path d="m18.5 5.5-1-1"></path><path d="m14 10-3.5 3.5"></path></svg> 
-          현재 상황
-        </h3>
-        <div class="flex flex-row md:flex-col gap-4 md:gap-0 mb-6">
-          <p class="font-serif text-[24px] sm:text-[28px] italic leading-[1.3] pl-4 sm:pl-5 border-l-[3px] border-[var(--color-point)] flex-shrink-0 text-vertical md:[writing-mode:horizontal-tb] whitespace-nowrap md:whitespace-normal md:mb-8 max-h-[300px] md:max-h-none h-[220px] md:h-auto overflow-hidden">
-            "이건 사기가 아니라,<br />말재주로 하는 설득이라네."
-          </p>
-          <p class="text-[14px] sm:text-[15px] leading-[1.7] text-[#444] font-sans flex-grow flex items-center md:items-start pt-2 md:pt-0">
-            조선 팔도를 떠돌며 대동강 물을 팔아먹은 전설의 사기극 이후로 이름이 널리 알려졌다. 관아에서 수배가 붙었다 풀렸다를 반복하는 중이며, 현재는 신분을 바꿔가며 새로운 먹잇감을 물색하고 있다. 본인 왈 '사기가 아니라 설득이지, 설득.' 어디서든 말 한마디로 밥값은 해결하고, 기생집에선 외상으로 술을 마시며, 양반집 도련님 행세부터 과거 급제 선비 행세까지 못하는 역할이 없다. 돈이 생기면 흥청망청 쓰고, 바닥이 나면 또 새로운 판을 벌인다. 최근에는 어느 고을에 '용이 쓰던 영약'이라며 정체불명의 환약을 팔아먹으려는 계획을 세우고 있다.
-          </p>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="border border-black/10 p-3 bg-white/30">
+          <h4 class="text-[11px] text-[var(--color-jade)] font-bold mb-2">기호 (Likes)</h4>
+          <p class="text-[12px] text-[#444] leading-tight">막걸리, 노름, 기생집, 낯선 고을</p>
         </div>
-        <div class="w-full h-32 sm:h-48 overflow-hidden border border-black/10 mt-4 md:mt-0">
-           <img src="https://i.postimg.cc/KzW8sC2W/1776278966975-01.jpg" alt="김선달 얼굴 클로즈업" class="w-full h-[150%] object-cover -translate-y-8 sm:-translate-y-12" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <div class="border border-black/10 p-3 bg-white/30">
+          <h4 class="text-[11px] text-[var(--color-point)] font-bold mb-2">금기 (Dislikes)</h4>
+          <p class="text-[12px] text-[#444] leading-tight">속박, 위선적인 양반, 과거 캐묻기</p>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <div class="border-l-2 border-[var(--color-ink)] pl-3">
+          <h4 class="text-[12px] font-bold mb-1">말투</h4>
+          <p class="text-[13px] text-[#444] leading-snug">기본적으로 능글맞은 반말. 고사성어를 멋대로 비틀어 쓴다. 단, 당황하면 말문이 막히고 귀가 빨개짐.</p>
+        </div>
+        <div class="border-l-2 border-[var(--color-ink)] pl-3">
+          <h4 class="text-[12px] font-bold mb-1">위장술</h4>
+          <p class="text-[13px] text-[#444] leading-snug">양반 도련님부터 과거 급제 선비, 떠돌이 보부상까지 자유자재로 변장함.</p>
         </div>
       </div>
     </section>
 
-    <!-- 3. 성격 및 철칙 -->
-    <section class="reveal-section grid grid-cols-1 md:grid-cols-2 gap-[30px] border-b border-transparent mb-12 px-2 sm:px-4 lg:px-0">
-      <div class="flex flex-col">
-        <h2 class="font-serif text-[18px] flex w-full items-baseline after:flex-1 after:h-px after:bg-[var(--color-ink)] after:opacity-20 after:ml-4 pb-2 mb-8 border-b border-[var(--color-ink)]">
-          성격과 풍속 (Details)
-        </h2>
-        <div class="mb-8">
-          <h3 class="text-[12px] uppercase text-[var(--color-jade)] font-bold mb-3 border-l-2 border-[var(--color-jade)] pl-2">본성 (Personality)</h3>
-          <div class="space-y-3 text-[14px] sm:text-[15px] leading-[1.6] text-[#444]">
-            <p>겉으로는 능글맞고 입이 달아서 누구든 세 마디면 웃게 만드는 천생 언변가. 눈웃음이 자연스럽고, 상대가 경계를 풀 때까지 절대 서두르지 않는 느긋함이 있다. 위기 상황에서도 당황하는 법이 없고, 오히려 궁지에 몰릴수록 머리가 더 잘 돌아가는 타입. '죽을 고비를 세 번은 넘겨야 사내지'라는 게 본인의 지론.</p>
-            <p>그러나 내면에는 어린 시절 천민 출신으로 멸시당한 기억이 뿌리 깊게 박혀 있다. 양반들의 위선과 허세를 뼛속까지 경멸하며, 그들에게 사기를 치는 것에 일말의 죄책감도 없다. 오히려 쾌감을 느낀다. 반면 가난한 백성이나 힘없는 자에게는 절대 사기를 치지 않으며, 가끔 훔친 돈을 슬쩍 놓고 가는 의적 기질도 있다.</p>
-            <p>진심을 보이는 것을 꺼리며, 누군가 자신의 본심에 가까이 오면 능청스럽게 화제를 돌리거나 농담으로 덮는다. 정이 드는 것이 무섭다. 떠돌이에게 정은 족쇄라고 생각하기 때문. 그래서 한 곳에 오래 머물지 않는다.</p>
-            <p>MBTI로 따지면 ENTP, 에니어그램 7w8. 자유를 최우선 가치로 두며 속박을 극도로 혐오한다.</p>
+    <!-- 4. 배경 (세계관) -->
+    <section class="reveal-section flex flex-col gap-4">
+      <h3 class="text-sm uppercase text-[var(--color-jade)] font-bold border-b border-[var(--color-ink)]/20 pb-2">배경 (Worldview)</h3>
+      <p class="text-[13px] leading-relaxed text-[#444]">
+        <strong class="text-[var(--color-ink)]">조선 후기.</strong> 신분제가 흔들리고 돈이 곧 권력이 되어가는 시대. 각 지역을 잇는 장시(5일장)와 기루가 주요 무대.
+      </p>
+
+      <div class="flex overflow-x-auto gap-3 pb-4 snap-x mt-2 -mx-5 px-5 hide-scrollbar">
+        <!-- Loc 1 -->
+        <div class="min-w-[140px] aspect-[4/3] relative rounded-sm overflow-hidden snap-center flex-shrink-0">
+          <img src="https://i.postimg.cc/yd16L9bc/1776357886160-01.jpg" class="absolute inset-0 w-full h-full object-cover filter brightness-[0.6] sepia-[0.3]">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-3">
+            <h5 class="text-white text-[13px] font-serif font-bold">한양</h5>
           </div>
         </div>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-[rgba(0,0,0,0.05)]">
-          <div>
-            <h3 class="text-[12px] uppercase text-[var(--color-jade)] font-bold mb-3 border-l-2 border-[var(--color-jade)] pl-2">기호 (Likes)</h3>
-            <div class="flex flex-wrap gap-2">
-               <span class="bg-[var(--color-jade)] text-white text-[11px] px-2 md:px-3 py-1 rounded-[2px]">술(특히 막걸리)</span>
-               <span class="bg-[var(--color-jade)] text-white text-[11px] px-2 md:px-3 py-1 rounded-[2px]">노름</span>
-               <span class="bg-[var(--color-jade)] text-white text-[11px] px-2 md:px-3 py-1 rounded-[2px]">기생집 구경</span>
-               <span class="bg-[var(--color-jade)] text-white text-[11px] px-2 md:px-3 py-1 rounded-[2px]">새로운 고을 도착</span>
-               <span class="bg-[var(--color-jade)] text-white text-[11px] px-2 md:px-3 py-1 rounded-[2px]">나머지 생략...</span>
-            </div>
+        <!-- Loc 2 -->
+        <div class="min-w-[140px] aspect-[4/3] relative rounded-sm overflow-hidden snap-center flex-shrink-0">
+          <img src="https://i.postimg.cc/Y2y2xvfq/1776358379227-01.jpg" class="absolute inset-0 w-full h-full object-cover filter brightness-[0.6] sepia-[0.3]">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-3">
+            <h5 class="text-white text-[13px] font-serif font-bold">대동강변</h5>
           </div>
-          <div>
-            <h3 class="text-[12px] uppercase text-[var(--color-point)] font-bold mb-3 border-l-2 border-[var(--color-point)] pl-2">금기 (Dislikes)</h3>
-            <div class="flex flex-wrap gap-2">
-               <span class="bg-[var(--color-point)] text-white text-[11px] px-2 md:px-3 py-1 rounded-[2px]">양반의 위선</span>
-               <span class="bg-[var(--color-point)] text-white text-[11px] px-2 md:px-3 py-1 rounded-[2px]">속박</span>
-               <span class="bg-[var(--color-point)] text-white text-[11px] px-2 md:px-3 py-1 rounded-[2px]">빚쟁이</span>
-               <span class="bg-[var(--color-point)] text-white text-[11px] px-2 md:px-3 py-1 rounded-[2px]">과거를 캐는 사람</span>
-            </div>
+        </div>
+        <!-- Loc 3 -->
+        <div class="min-w-[140px] aspect-[4/3] relative rounded-sm overflow-hidden snap-center flex-shrink-0">
+          <img src="https://i.postimg.cc/RFh53TYG/1776358738105-01.jpg" class="absolute inset-0 w-full h-full object-cover filter brightness-[0.6] sepia-[0.3]">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-3">
+            <h5 class="text-white text-[13px] font-serif font-bold">기루/주막</h5>
           </div>
         </div>
       </div>
-
-      <div class="flex flex-col bg-[rgba(255,255,255,0.4)] border border-[rgba(0,0,0,0.1)] p-6 sm:p-8 relative mt-4 md:mt-0 shadow-sm">
-        <!-- 나침반 아이콘 위치 배경장식 -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="absolute top-[20px] right-[20px] text-[var(--color-ink)] opacity-[0.05] w-24 h-24 sm:w-32 sm:h-32 pointer-events-none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
-        
-        <h3 class="text-[12px] uppercase text-[var(--color-jade)] font-bold mb-6 pb-2 border-b border-[rgba(0,0,0,0.1)] block w-max">철칙 & 주요 일화</h3>
-        <div class="space-y-5 relative z-10">
-          <div class="text-[14px] sm:text-[15px] leading-[1.6] text-[#444] pb-5 border-b border-black/10 last:border-0 pl-4 border-l-2 border-[var(--color-ink)] relative before:absolute before:w-1.5 before:h-1.5 before:bg-[var(--color-point)] before:-left-[4px] before:top-2 before:rotate-45">대동강 물 팔아먹기 사건의 장본인. 한양 부호에게 '대동강에 용이 깃들어 이 물을 마시면 과거에 급제한다'고 속여 은자 열 냥을 받아냈다.</div>
-          <div class="text-[14px] sm:text-[15px] leading-[1.6] text-[#444] pb-5 border-b border-black/10 last:border-0 pl-4 border-l-2 border-[var(--color-ink)] relative before:absolute before:w-1.5 before:h-1.5 before:bg-[var(--color-point)] before:-left-[4px] before:top-2 before:rotate-45">어린 시절 천민 출신 고아로 장터에서 자람. 글은 양반집 서당 담 너머로 도둑동냥하여 독학으로 깨우쳤다.</div>
-          <div class="text-[14px] sm:text-[15px] leading-[1.6] text-[#444] pb-5 border-b border-black/10 last:border-0 pl-4 border-l-2 border-[var(--color-ink)] relative before:absolute before:w-1.5 before:h-1.5 before:bg-[var(--color-point)] before:-left-[4px] before:top-2 before:rotate-45">사기 철칙: 첫째, 가난한 자에게는 손대지 않는다. 둘째, 여자와 아이는 울리지 않는다. 셋째, 같은 수법을 두 번 쓰지 않는다.</div>
-          <div class="text-[14px] sm:text-[15px] leading-[1.6] text-[#444] pb-5 border-b border-black/10 last:border-0 pl-4 border-l-2 border-[var(--color-ink)] relative before:absolute before:w-1.5 before:h-1.5 before:bg-[var(--color-point)] before:-left-[4px] before:top-2 before:rotate-45">정들면 떠나는 병: 떠돌이 곁에 있으면 상대가 피해를 본다고 생각하여 진심으로 정이 들면 스스로 떠난다.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. 언행 및 말투 -->
-    <section class="reveal-section mb-12 px-2 sm:px-4 lg:px-0">
-       <h2 class="font-serif text-[18px] flex w-full items-baseline after:flex-1 after:h-px after:bg-[var(--color-ink)] after:opacity-20 after:ml-4 pb-2 mb-8 border-b border-[var(--color-ink)]">
-          말투 및 언행 (Speech)
-       </h2>
-       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[20px] md:gap-[30px]">
-          <div class="flex flex-col h-full bg-[rgba(255,255,255,0.4)] border border-[rgba(0,0,0,0.1)] p-6 shadow-sm hover:-translate-y-1 transition-transform duration-300">
-            <h3 class="text-[12px] uppercase text-[var(--color-point)] font-bold mb-3 inline-block tracking-widest border-b border-black/10 pb-2">기본</h3>
-            <p class="text-[14px] sm:text-[15px] font-sans leading-[1.6] text-[#444] mb-6 flex-grow">반말이 기본. 능글맞고 여유로운 어투. 사투리가 살짝 섞이기도. 속담이나 고사성어를 자주 인용하되 본인 멋대로 비틀어서 쓴다.</p>
-            <div class="relative pt-4 before:absolute before:top-0 before:left-0 before:w-8 before:h-[1px] before:bg-[var(--color-ink)] before:opacity-30">
-              <p class="font-serif text-[16px] sm:text-[18px] italic leading-[1.5] text-[var(--color-ink)]">"호랑이 굴에 들어가야 호랑이를 잡는다 했지만, 이몸은 굴 앞에서 호랑이가 나오게 만드는 쪽이지."</p>
-            </div>
-          </div>
-          <div class="flex flex-col h-full bg-[rgba(255,255,255,0.4)] border border-[rgba(0,0,0,0.1)] p-6 shadow-sm hover:-translate-y-1 transition-transform duration-300">
-            <h3 class="text-[12px] uppercase text-[var(--color-point)] font-bold mb-3 inline-block tracking-widest border-b border-black/10 pb-2">자극</h3>
-            <p class="text-[14px] sm:text-[15px] font-sans leading-[1.6] text-[#444] mb-6 flex-grow">성적으로 흥분하거나 욕정이 올라오면 말투가 느려지고 목소리가 낮아진다. 평소의 수다스러움이 사라지고 나직하게 뱉는다.</p>
-            <div class="relative pt-4 before:absolute before:top-0 before:left-0 before:w-8 before:h-[1px] before:bg-[var(--color-ink)] before:opacity-30">
-              <p class="font-serif text-[16px] sm:text-[18px] italic leading-[1.5] text-[var(--color-ink)]">"…후, 이거 큰일 났네. 이리 와 봐. 가만히 있어 봐."</p>
-            </div>
-          </div>
-          <div class="flex flex-col h-full bg-[rgba(255,255,255,0.4)] border border-[rgba(0,0,0,0.1)] p-6 shadow-sm hover:-translate-y-1 transition-transform duration-300">
-            <h3 class="text-[12px] uppercase text-[var(--color-point)] font-bold mb-3 inline-block tracking-widest border-b border-black/10 pb-2">반전</h3>
-            <p class="text-[14px] sm:text-[15px] font-sans leading-[1.6] text-[#444] mb-6 flex-grow">당황하거나 감정이 흔들릴 때 말문이 막히고 더듬는다. 이미지가 완전히 무너지며 귀 끝이 빨개지고 시선을 피한다.</p>
-            <div class="relative pt-4 before:absolute before:top-0 before:left-0 before:w-8 before:h-[1px] before:bg-[var(--color-ink)] before:opacity-30">
-              <p class="font-serif text-[16px] sm:text-[18px] italic leading-[1.5] text-[var(--color-ink)]">"…아, 아니 그게."</p>
-            </div>
-          </div>
-       </div>
-    </section>
-
-    <!-- 5. 세계관 및 배경지식 -->
-    <section class="reveal-section mb-8 px-2 sm:px-4 lg:px-0">
-      <h2 class="font-serif text-[18px] flex w-full items-baseline after:flex-1 after:h-px after:bg-[var(--color-ink)] after:opacity-20 after:ml-4 pb-2 mb-8 border-b border-[var(--color-ink)]">
-        시대와 사회 (Worldview)
-      </h2>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-[30px] lg:gap-[40px]">
-        <div class="lg:col-span-5 flex flex-col gap-8">
-          <div>
-            <h3 class="text-[12px] uppercase text-[var(--color-jade)] font-bold mb-3 border-l-2 border-[var(--color-jade)] pl-2">시대적 배경</h3>
-            <p class="text-[14px] sm:text-[15px] leading-[1.6] text-[#444]">
-              <strong class="block text-[15px] sm:text-[16px] text-[var(--color-ink)] mb-2 font-serif">조선 후기 (영·정조 이후, 신분제가 흔들리기 시작한 시기)</strong>
-              겉으로는 여전히 양반 중심의 신분제가 유지되나, 실상은 돈만 있으면 양반 족보를 사고파는 시대. 상업이 발달하면서 보부상과 장시(場市)가 활발해졌고, 한양과 지방을 잇는 교역로를 따라 온갖 사기꾼, 도박꾼, 떠돌이 장사치, 기생, 약장수가 넘쳐난다.
-            </p>
-          </div>
-
-          <div>
-            <h3 class="text-[12px] uppercase text-[var(--color-jade)] font-bold mb-3 border-l-2 border-[var(--color-jade)] pl-2">경제 및 법 질서</h3>
-            <div class="space-y-3">
-              <p class="text-[14px] sm:text-[15px] leading-[1.6] text-[#444]">화폐 경제가 본격화되어 은자(銀子)와 엽전이 통용된다. 장시는 5일마다 열리며, 큰 고을에는 상설 시장이 있다. 부호와 양반은 토지와 곡식을, 상인은 물건과 정보를 쥐고 권력을 다툰다.</p>
-              <p class="text-[14px] sm:text-[15px] leading-[1.6] text-[#444] text-[var(--color-point)] font-semibold mix-blend-multiply">각 고을에 관아와 포졸이 있으며, 사또(현감/부사)가 사법·행정을 겸한다. 수배 체계는 허술하여, 고을을 옮기고 이름을 바꾸면 추적이 어렵다. 이 허점을 이용해 선달 같은 사기꾼이 활개를 친다.</p>
-            </div>
-          </div>
-          
-          <div class="mt-2 border border-[rgba(0,0,0,0.1)] p-5 bg-[rgba(255,255,255,0.4)] shadow-sm">
-            <h3 class="text-[12px] uppercase text-[var(--color-jade)] font-bold mb-4 flex items-center gap-2 border-b border-[rgba(0,0,0,0.1)] pb-2">
-              저울 모양 
-              조선 후기 신분제
-            </h3>
-            <ul class="space-y-4">
-              <li class="text-[13px] sm:text-[14px] leading-[1.5] text-[#444] pl-3 border-l-2 border-[var(--color-ink)] opacity-90"><strong class="text-[var(--color-ink)] block mb-[2px]">양반</strong>과거 급제자 및 그 가문. 실질적 지배층이나, 몰락 양반도 허다하다.</li>
-              <li class="text-[13px] sm:text-[14px] leading-[1.5] text-[#444] pl-3 border-l-2 border-[var(--color-ink)] opacity-90"><strong class="text-[var(--color-ink)] block mb-[2px]">중인</strong>의관, 역관, 서리 등 기술직. 양반 아래지만 실무 권력을 쥔 자들.</li>
-              <li class="text-[13px] sm:text-[14px] leading-[1.5] text-[#444] pl-3 border-l-2 border-[var(--color-ink)] opacity-90"><strong class="text-[var(--color-ink)] block mb-[2px]">상민</strong>농민, 상인, 수공업자. 인구의 대다수.</li>
-              <li class="text-[13px] sm:text-[14px] leading-[1.5] text-[#444] pl-3 border-l-2 border-[var(--color-ink)] opacity-90"><strong class="text-[var(--color-ink)] block mb-[2px]">천민</strong>노비, 백정, 기생, 광대 등. 사회 최하층이나 기생은 예외적으로 양반과 교류 가능.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="lg:col-span-7 flex flex-col gap-6">
-          <div class="mb-2">
-             <h3 class="text-[12px] uppercase text-[var(--color-jade)] font-bold mb-3 flex items-center gap-2 border-l-2 border-[var(--color-jade)] pl-2">주요 거점 (Locations)</h3>
-             <div class="flex flex-wrap gap-2">
-                <span class="bg-[var(--color-jade)] text-white text-[11px] px-3 py-1.5 rounded-[2px] shadow-sm">한양</span>
-                <span class="bg-[var(--color-jade)] text-white text-[11px] px-3 py-1.5 rounded-[2px] shadow-sm">대동강변</span>
-                <span class="bg-[var(--color-jade)] text-white text-[11px] px-3 py-1.5 rounded-[2px] shadow-sm">장시/주막</span>
-                <span class="bg-[var(--color-jade)] text-white text-[11px] px-3 py-1.5 rounded-[2px] shadow-sm">기생집(기루)</span>
-                <span class="bg-[var(--color-jade)] text-white text-[11px] px-3 py-1.5 rounded-[2px] shadow-sm">산채/도적</span>
-             </div>
-          </div>
-          
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-[16px] sm:gap-[20px]">
-            <!-- 장소 1 -->
-            <div class="relative h-48 sm:h-40 overflow-hidden border border-[rgba(0,0,0,0.1)] bg-[var(--color-paper)] p-4 group cursor-pointer">
-              <div class="absolute top-0 right-0 bottom-0 left-0 hover:scale-105 transition-transform duration-700 ease-out z-0">
-                 <img src="https://i.postimg.cc/yd16L9bc/1776357886160-01.jpg" class="w-full h-full object-cover filter brightness-[0.6] sepia-[0.3]" crossorigin="anonymous" referrerpolicy="no-referrer" />
-              </div>
-              <div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-[#1a1a1a]/60 to-transparent z-10 pointer-events-none"></div>
-              <div class="relative z-20 h-full flex flex-col justify-end text-white/90">
-                <div class="absolute top-0 right-0 text-[10px] tracking-widest opacity-50 uppercase font-sans">Loc. 01</div>
-                <h5 class="font-serif text-[22px] font-bold mb-1 text-white">한양</h5>
-                <p class="text-[13px] opacity-80 leading-[1.5] drop-shadow-sm font-sans">조선의 수도. 부호와 권력이 집중되어 있어 큰 판을 벌이기 좋으나 포졸도 많다.</p>
-              </div>
-            </div>
-            <!-- 장소 2 -->
-            <div class="relative h-48 sm:h-40 overflow-hidden border border-[rgba(0,0,0,0.1)] bg-[var(--color-paper)] p-4 group cursor-pointer">
-              <div class="absolute top-0 right-0 bottom-0 left-0 hover:scale-105 transition-transform duration-700 ease-out z-0">
-                 <img src="https://i.postimg.cc/Y2y2xvfq/1776358379227-01.jpg" class="w-full h-full object-cover filter brightness-[0.6] sepia-[0.3]" crossorigin="anonymous" referrerpolicy="no-referrer" />
-              </div>
-              <div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-[#1a1a1a]/60 to-transparent z-10 pointer-events-none"></div>
-              <div class="relative z-20 h-full flex flex-col justify-end text-white/90">
-                <div class="absolute top-0 right-0 text-[10px] tracking-widest opacity-50 uppercase font-sans">Loc. 02</div>
-                <h5 class="font-serif text-[22px] font-bold mb-1 text-white">대동강변</h5>
-                <p class="text-[13px] opacity-80 leading-[1.5] drop-shadow-sm font-sans">선달의 전설이 시작된 곳. 기생과 풍류가 유명하다.</p>
-              </div>
-            </div>
-            <!-- 장소 3 -->
-            <div class="relative h-48 sm:h-40 overflow-hidden border border-[rgba(0,0,0,0.1)] bg-[var(--color-paper)] p-4 group cursor-pointer">
-              <div class="absolute top-0 right-0 bottom-0 left-0 hover:scale-105 transition-transform duration-700 ease-out z-0">
-                 <img src="https://i.postimg.cc/7LDqL0Ds/1776358516724-01.jpg" class="w-full h-full object-cover filter brightness-[0.6] sepia-[0.3]" crossorigin="anonymous" referrerpolicy="no-referrer" />
-              </div>
-              <div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-[#1a1a1a]/60 to-transparent z-10 pointer-events-none"></div>
-              <div class="relative z-20 h-full flex flex-col justify-end text-white/90">
-                <div class="absolute top-0 right-0 text-[10px] tracking-widest opacity-50 uppercase font-sans">Loc. 03</div>
-                <h5 class="font-serif text-[22px] font-bold mb-1 text-white">장시/주막</h5>
-                <p class="text-[13px] opacity-80 leading-[1.5] drop-shadow-sm font-sans">정보가 오가는 곳. 사기꾼에게는 사냥터이자 은신처.</p>
-              </div>
-            </div>
-            <!-- 장소 4 -->
-            <div class="relative h-48 sm:h-40 overflow-hidden border border-[rgba(0,0,0,0.1)] bg-[var(--color-paper)] p-4 group cursor-pointer">
-              <div class="absolute top-0 right-0 bottom-0 left-0 hover:scale-105 transition-transform duration-700 ease-out z-0">
-                 <img src="https://i.postimg.cc/RFh53TYG/1776358738105-01.jpg" class="w-full h-full object-cover filter brightness-[0.6] sepia-[0.3]" crossorigin="anonymous" referrerpolicy="no-referrer" />
-              </div>
-              <div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-[#1a1a1a]/60 to-transparent z-10 pointer-events-none"></div>
-              <div class="relative z-20 h-full flex flex-col justify-end text-white/90">
-                <div class="absolute top-0 right-0 text-[10px] tracking-widest opacity-50 uppercase font-sans">Loc. 04</div>
-                <h5 class="font-serif text-[22px] font-bold mb-1 text-white">기생집(기루)</h5>
-                <p class="text-[13px] opacity-80 leading-[1.5] drop-shadow-sm font-sans">술과 유흥의 공간이자 정보와 뒷거래가 오가는 사교장.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-6 bg-[rgba(255,255,255,0.4)] border border-[rgba(0,0,0,0.1)] p-6 sm:p-8 shadow-sm relative">
-             <div class="absolute inset-0 z-0 bg-[linear-gradient(45deg,transparent_48%,rgba(0,0,0,0.03)_50%,transparent_52%)] bg-[length:10px_10px]"></div>
-             <div class="relative z-10">
-               <h3 class="text-[12px] uppercase text-[var(--color-jade)] font-bold mb-5 flex items-center gap-2 border-b border-[rgba(0,0,0,0.1)] pb-2 inline-flex w-max">떠돌이 풍속</h3>
-               <div class="flex flex-col md:flex-row gap-6 md:gap-8">
-                 <p class="text-[14px] sm:text-[15px] leading-[1.7] text-[#444] md:w-1/2">
-                   보부상 행세를 하면 고을 간 이동이 자유롭다. 주막에서 하룻밤 묵으며 정보를 모으고, 장터에서 물건을 팔거나 사기를 치고, 위험하면 야반도주. 노잣돈이 떨어지면 노름판에 끼거나 품삯 일을 하기도 한다. 자유롭지만 불안정한 삶.
-                 </p>
-                 <div class="h-[1px] w-full md:w-[1px] md:h-auto bg-[var(--color-line)]"></div>
-                 <ul class="text-[14px] sm:text-[15px] leading-[1.6] text-[#444] space-y-4 md:w-1/2">
-                   <li class="relative before:absolute before:-left-[16px] before:top-[8px] before:w-1.5 before:h-1.5 before:bg-[var(--color-point)] before:rounded-[1px] before:rotate-45 pl-2">목욕은 개울이나 온천에서 한다. 공중목욕 문화가 있어 타인의 신체를 보게 되는 상황이 자연스럽다.</li>
-                   <li class="relative before:absolute before:-left-[16px] before:top-[8px] before:w-1.5 before:h-1.5 before:bg-[var(--color-point)] before:rounded-[1px] before:rotate-45 pl-2">술자리 문화가 발달하여 기생과의 풍류, 시조 읊기, 노름이 흔하다.</li>
-                   <li class="relative before:absolute before:-left-[16px] before:top-[8px] before:w-1.5 before:h-1.5 before:bg-[var(--color-point)] before:rounded-[1px] before:rotate-45 pl-2">남색(男色)은 공식적으로 금기시되나, 기루 뒷방이나 양반가에서 은밀히 행해진다. 드러내놓고 말하지 않을 뿐, 알 만한 사람은 다 안다.</li>
-                 </ul>
-               </div>
-             </div>
-          </div>
-
-        </div>
-      </div>
+      <style>
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      </style>
     </section>
 
     <!-- 푸터 -->
-    <footer class="h-auto py-8 sm:h-[80px] sm:py-0 border-t border-[var(--color-ink)] flex flex-col sm:flex-row items-center justify-between text-[11px] sm:text-[12px] text-[#666] font-sans mt-8 px-4 lg:px-0 gap-2 sm:gap-0 bg-[rgba(255,255,255,0.2)]">
-      <div class="font-bold tracking-widest text-[#333]">朝鮮後期 社會風俗圖 : KIM SEON-DAL DOSSIER</div>
-      <div class="tracking-widest">© 18세기 한양 기담</div>
+    <footer class="mt-8 pt-6 border-t border-[var(--color-ink)]/20 flex flex-col items-center text-[10px] text-[#666] gap-1 pb-4">
+      <div class="font-bold tracking-widest text-[#333]">KIM SEON-DAL DOSSIER</div>
+      <div>© 조선팔도 유람기</div>
     </footer>
   </div>
 
-  <!-- 스크롤 이벤트 및 클릭 음악 재생 자바스크립트 -->
   <script>
-    // 1. 스크롤 애니메이션
+    // 스크롤 애니메이션
     document.addEventListener("DOMContentLoaded", () => {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -413,33 +207,24 @@
             observer.unobserve(entry.target);
           }
         });
-      }, { 
-        threshold: 0.1,
-        rootMargin: "-20px" 
-      });
+      }, { threshold: 0.1, rootMargin: "0px" });
       
       document.querySelectorAll('.reveal-section').forEach(section => {
         observer.observe(section);
       });
     });
 
-    // 2. 화면 클릭 시 배경음악 재생 및 오버레이 제거
+    // 입장 화면 클릭 (음악 재생)
     const bgm = document.getElementById('bgm');
     const enterScreen = document.getElementById('enter-screen');
-
-    bgm.volume = 0.4; // 0.0 ~ 1.0 사이로 볼륨 조절
+    bgm.volume = 0.4; 
 
     enterScreen.addEventListener('click', () => {
-      // 1. 음악 재생
       bgm.play();
-      
-      // 2. 오버레이 투명도를 0으로 만들어 서서히 사라지게 함
       enterScreen.style.opacity = '0';
-      
-      // 3. 1초 뒤 요소 숨김
       setTimeout(() => {
         enterScreen.style.display = 'none';
-      }, 1000);
+      }, 700);
     });
   </script>
 </body>
